@@ -250,7 +250,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1353486714391126}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -26.5, y: 6.37, z: 0}
+  m_LocalPosition: {x: -38.760002, y: 3.51, z: 0.8}
   m_LocalScale: {x: 0.75, y: 0.75, z: 0.75}
   m_Children:
   - {fileID: 4444850045873492}
@@ -509,7 +509,7 @@ AudioSource:
   SpatializePostEffects: 0
   Priority: 128
   DopplerLevel: 1
-  MinDistance: 1
+  MinDistance: 0.7138901
   MaxDistance: 500
   Pan2D: 0
   rolloffMode: 0
@@ -581,8 +581,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff555f87ba2c20049a335fd4e0d15594, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rcsThrust: 1000
-  rcsRotation: 200
+  rcsThrust: 1500
+  rcsRotation: 300
   mainEngine: {fileID: 8300000, guid: c5cbb1f490674914fa1f61ba7e1f73e6, type: 3}
   mainEngineVolume: 1
   death: {fileID: 8300000, guid: b11a0645ef3026d4e891a1fc31bb9d4e, type: 3}

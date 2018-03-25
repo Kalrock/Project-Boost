@@ -11,6 +11,7 @@ public class Oscillator : MonoBehaviour {
     //todo remove from inspector later
     [Range(0,1)] [SerializeField] float movementFactor; // 0 for not moved, 1 for fully moved
     [SerializeField] float period = 2f;
+    [SerializeField] bool reverse = false;
 
     Vector3 startingPos;
     Vector3 maxOffset;
@@ -43,9 +44,14 @@ public class Oscillator : MonoBehaviour {
     {
 
         float cycles = Time.time / period; // grows continually from 0 
-
+        
         float rawSineWave = Mathf.Sin(cycles * tau);
 
         movementFactor = rawSineWave / 2f;
+
+        if (reverse)
+        {
+            movementFactor = -movementFactor;
+        }
     }
 }

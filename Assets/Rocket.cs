@@ -10,7 +10,7 @@ public class Rocket : MonoBehaviour {
     AudioSource audioSource;
 
     int currentLevel;
-    const int maxLevel = 1;
+    int maxLevel;
 
     [SerializeField] float rcsThrust = 1000f;
     [SerializeField] float rcsRotation = 200f;
@@ -29,12 +29,15 @@ public class Rocket : MonoBehaviour {
     enum State { Alive, Dying, Transcending };
     State state = State.Alive;
 
+    bool isCollisions = true;
+
     // Use this for initialization
     void Start () {
         rigidBody = GetComponent<Rigidbody>();
         audioSource = GetComponent<AudioSource>();
         currentLevel = SceneManager.GetActiveScene().buildIndex;
-	}
+        maxLevel = SceneManager.sceneCountInBuildSettings;
+    }
 	
 	// Update is called once per frame
 	void Update ()
@@ -44,11 +47,37 @@ public class Rocket : MonoBehaviour {
             RespondToThrustInput();
             RespondToRotateInput();
         }
+
+        if (Debug.isDebugBuild)
+        {
+            RespondToDebugKeys();
+        }
 	}
+
+    private void RespondToDebugKeys()
+    {
+        if (Input.GetKey(KeyCode.L))
+        {
+            LoadNextLevel();
+        }
+        else if (Input.GetKey(KeyCode.C))
+        {
+            if (isCollisions)
+            {
+                isCollisions = false;
+            }
+            else
+            {
+                isCollisions = true;
+            }
+
+        }
+    }
 
     private void OnCollisionEnter(Collision collision)
     {
         if(state != State.Alive) { return; }
+        if (!isCollisions) { return; }
 
         switch (collision.gameObject.tag)
         {
@@ -88,6 +117,10 @@ public class Rocket : MonoBehaviour {
         {
             currentLevel++;
         }
+        else
+        {
+            currentLevel = 0;
+        }
         SceneManager.LoadScene(currentLevel);
     }
 
@@ -123,7 +156,8 @@ public class Rocket : MonoBehaviour {
 
     private void RespondToRotateInput()
     {
-        rigidBody.freezeRotation = true;
+        rigidBody.angularVelocity = Vector3.zero; // remove rotation due to physics
+
         float rotationThisFrame = rcsRotation * Time.deltaTime;
 
         if (Input.GetKey(KeyCode.A))
@@ -134,7 +168,5 @@ public class Rocket : MonoBehaviour {
         {
             transform.Rotate(-Vector3.forward * rotationThisFrame);
         }
-
-        rigidBody.freezeRotation = false;
     }
 }
